@@ -58,15 +58,6 @@ definitions:
       id:
         type: integer
     type: object
-  handlers.GetCirclesRequest:
-    type: object
-  handlers.GetCirclesResponse:
-    properties:
-      circles:
-        items:
-          $ref: '#/definitions/dbmsg.Circle'
-        type: array
-    type: object
   handlers.GetProfileRequest:
     type: object
   handlers.GetProfileResponse:
@@ -77,6 +68,15 @@ definitions:
         type: integer
       login:
         type: string
+    type: object
+  handlers.SearchCirclesRequest:
+    type: object
+  handlers.SearchCirclesResponse:
+    properties:
+      circles:
+        items:
+          $ref: '#/definitions/dbmsg.Circle'
+        type: array
     type: object
 info:
   contact: {}
@@ -141,12 +141,12 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/handlers.GetCirclesRequest'
+          $ref: '#/definitions/handlers.SearchCirclesRequest'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.GetCirclesResponse'
+            $ref: '#/definitions/handlers.SearchCirclesResponse'
       summary: Get all circles
       tags:
       - Circles

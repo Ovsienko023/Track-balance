@@ -103,7 +103,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.GetCirclesRequest"
+                            "$ref": "#/definitions/handlers.SearchCirclesRequest"
                         }
                     }
                 ],
@@ -111,7 +111,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.GetCirclesResponse"
+                            "$ref": "#/definitions/handlers.SearchCirclesResponse"
                         }
                     }
                 }
@@ -237,20 +237,6 @@ const docTemplate = `{
                 }
             }
         },
-        "handlers.GetCirclesRequest": {
-            "type": "object"
-        },
-        "handlers.GetCirclesResponse": {
-            "type": "object",
-            "properties": {
-                "circles": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dbmsg.Circle"
-                    }
-                }
-            }
-        },
         "handlers.GetProfileRequest": {
             "type": "object"
         },
@@ -265,6 +251,20 @@ const docTemplate = `{
                 },
                 "login": {
                     "type": "string"
+                }
+            }
+        },
+        "handlers.SearchCirclesRequest": {
+            "type": "object"
+        },
+        "handlers.SearchCirclesResponse": {
+            "type": "object",
+            "properties": {
+                "circles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dbmsg.Circle"
+                    }
                 }
             }
         }
