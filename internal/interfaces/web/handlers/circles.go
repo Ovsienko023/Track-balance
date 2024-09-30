@@ -93,7 +93,6 @@ type (
 		UserID      int64                    `json:"user_id"`
 		Areas       []dbmsg.CreateCircleArea `json:"areas"`
 		Description *string                  `json:"description"`
-		CreatedAt   int64                    `json:"created_at"`
 	}
 
 	CreateCircleResponse struct {

@@ -1,20 +1,21 @@
 package router
 
 import (
+	"embed"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
 
-	"api/infrastructure/config"
 	"api/internal/core"
 	"api/internal/interfaces/web/handlers"
 )
 
-func RegisterHTTPEndpoints(router chi.Router, c core.Core, apiConfig *config.Api) http.Handler {
-	h := handlers.New(c)
+func RegisterHTTPEndpoints(router chi.Router, c core.Core, fs *embed.FS) http.Handler {
+	h := handlers.New(c, fs)
 
 	router.Route("/api/v1", func(r chi.Router) {
 		r.Get("/echo", h.Echo)
+		r.Get("/docs", h.Docs)
 
 		// USERS
 		r.Get("/profile", h.GetProfile)

@@ -211,9 +211,6 @@
                         "$ref": "#/definitions/dbmsg.CreateCircleArea"
                     }
                 },
-                "created_at": {
-                    "type": "integer"
-                },
                 "description": {
                     "type": "string"
                 },

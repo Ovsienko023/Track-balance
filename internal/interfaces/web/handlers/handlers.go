@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"embed"
 	"encoding/json"
 	"net/http"
 
@@ -9,11 +10,13 @@ import (
 
 type Transport struct {
 	Core core.Core
+	Fs   *embed.FS
 }
 
-func New(c core.Core) *Transport {
+func New(c core.Core, fs *embed.FS) *Transport {
 	return &Transport{
 		Core: c,
+		Fs:   fs,
 	}
 }
 

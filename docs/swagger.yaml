@@ -46,8 +46,6 @@ definitions:
         items:
           $ref: '#/definitions/dbmsg.CreateCircleArea'
         type: array
-      created_at:
-        type: integer
       description:
         type: string
       user_id:

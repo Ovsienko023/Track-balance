@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"embed"
 	"log"
 	"net/http"
 	"os"
@@ -22,11 +23,12 @@ import (
 
 type App struct {
 	httpServer *http.Server
+	fs         *embed.FS
 
 	recordCore *core.Core
 }
 
-func New(cnf *config.Config, logger *zap.Logger) *App {
+func New(cnf *config.Config, logger *zap.Logger, fs *embed.FS) *App {
 	db, err := sqllite.New(cnf.Db.ConnStr)
 	if err != nil {
 		panic(err.Error())
@@ -39,6 +41,7 @@ func New(cnf *config.Config, logger *zap.Logger) *App {
 
 	return &App{
 		recordCore: recordCore,
+		fs:         fs,
 	}
 }
 
@@ -52,7 +55,7 @@ func (a *App) Run(apiConfig *config.Api) error {
 	router.Use(middleware.Recoverer)
 	router.Use(staticServer.Handler)
 
-	r := transportHttp.RegisterHTTPEndpoints(router, *a.recordCore, apiConfig)
+	r := transportHttp.RegisterHTTPEndpoints(router, *a.recordCore, a.fs)
 
 	a.httpServer = &http.Server{
 		Addr:           apiConfig.Host + ":" + apiConfig.Port,

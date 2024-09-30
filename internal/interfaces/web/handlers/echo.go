@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"html/template"
 	"net/http"
 )
 
@@ -22,4 +23,29 @@ func (t *Transport) Echo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	JsonResponse(w, http.StatusOK, response)
+}
+
+func (t *Transport) Docs(w http.ResponseWriter, r *http.Request) {
+	errorContainer := ErrorResponse{}
+
+	tpl, err := template.ParseFS(t.Fs, "web/apidoc/v1/index.html")
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		errorContainer.Done(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/html")
+	w.WriteHeader(http.StatusOK)
+
+	data := map[string]interface{}{
+		"userAgent": r.UserAgent(),
+	}
+
+	if err := tpl.Execute(w, data); err != nil {
+		errorContainer.Done(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	JsonResponse(w, http.StatusInternalServerError, nil)
 }
