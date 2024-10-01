@@ -17,7 +17,7 @@ import (
 	"api/infrastructure/config"
 	"api/internal/core"
 	transportHttp "api/internal/interfaces/web/router"
-	"api/internal/repo/sqllite"
+	"api/internal/repov2"
 	"api/pkg/servers/static"
 )
 
@@ -29,12 +29,26 @@ type App struct {
 }
 
 func New(cnf *config.Config, logger *zap.Logger, fs *embed.FS) *App {
-	db, err := sqllite.New(cnf.Db.ConnStr)
+	//db, err := sqllite.New(cnf.Db.ConnStr)
+	//if err != nil {
+	//	panic(err.Error())
+	//}
+
+	driver, err := repov2.Conn(cnf.Db.ConnStr)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	recordCore, err := core.New(logger, cnf, db)
+	if err = repov2.InitDb(driver); err != nil {
+		panic(err.Error())
+	}
+
+	recordCore, err := core.New(logger, cnf, core.Repositories{
+		Users:   repov2.NewUsers(driver),
+		Circles: repov2.NewCircles(driver),
+		Areas:   repov2.NewAreas(driver),
+	})
+
 	if err != nil {
 		panic(err.Error()) // TODO !!!
 	}

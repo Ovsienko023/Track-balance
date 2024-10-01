@@ -16,16 +16,10 @@ func init() {
 	}
 }
 
-type Doc struct {
-	Host string `yaml:"host"`
-	Port string `yaml:"port"`
-}
-
 type Api struct {
 	Host        string `yaml:"host"`
 	Port        string `yaml:"port"`
 	TokenSecret string `yaml:"token_secret"`
-	Doc         Doc    `yaml:"doc"`
 	Static      Static `yaml:"static"`
 	Tls         Tls    `yaml:"tls"`
 }
@@ -53,12 +47,9 @@ const (
 	DefaultConfigPath = ""
 
 	DefaultApiHost = "0.0.0.0"
-	DefaultApiPort = "8888"
+	DefaultApiPort = "80"
 
 	DefaultStaticPath = "web"
-
-	DefaultDocHost = "127.0.0.1"
-	DefaultDocPort = "8888"
 
 	DefaultDbConnStr = "file:track-balance.db?foreign_keys=on"
 )
@@ -68,10 +59,6 @@ func New() (*Config, error) {
 		Api{
 			Host: DefaultApiHost,
 			Port: DefaultApiPort,
-			Doc: Doc{
-				Host: DefaultDocHost,
-				Port: DefaultDocPort,
-			},
 			Static: Static{
 				FilesPath: DefaultStaticPath,
 			},
@@ -118,14 +105,6 @@ func New() (*Config, error) {
 
 	if dbConn, ok := os.LookupEnv("RP_DATABASE_CONN_STRING"); ok {
 		cfg.Db.ConnStr = dbConn
-	}
-
-	if docHost, ok := os.LookupEnv("RP_DOC_HOST"); ok {
-		cfg.Api.Doc.Host = docHost
-	}
-
-	if docPort, ok := os.LookupEnv("RP_DOC_PORT"); ok {
-		cfg.Api.Doc.Port = docPort
 	}
 
 	var err error

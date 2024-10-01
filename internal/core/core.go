@@ -5,6 +5,7 @@ import (
 
 	"api/infrastructure/config"
 	"api/internal/repo/sqllite"
+	"api/internal/repov2"
 )
 
 type (
@@ -13,17 +14,21 @@ type (
 		cnf    *config.Config
 		DB     *sqllite.Client
 
-		repo Repositories
+		Repo Repositories
 	}
 
-	Repositories struct{}
+	Repositories struct {
+		Users   *repov2.UsersRepo
+		Circles *repov2.CirclesRepo
+		Areas   *repov2.AreasRepo
+	}
 )
 
-func New(logger *zap.Logger, cnf *config.Config, db *sqllite.Client) (*Core, error) {
+func New(logger *zap.Logger, cnf *config.Config, repositories Repositories) (*Core, error) {
 	return &Core{
 		cnf:    cnf,
 		Logger: logger,
-		DB:     db,
-		repo:   Repositories{},
+		//DB:     db,
+		Repo: repositories,
 	}, nil
 }

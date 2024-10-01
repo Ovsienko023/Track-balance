@@ -40,14 +40,11 @@ func (t *Transport) GetCircle(w http.ResponseWriter, r *http.Request) {
 		CircleID: id,
 	}
 
-	circle, err := t.Core.DB.CirclesRepo.GetCircle(r.Context(), message)
+	circle, err := t.Core.Repo.Circles.GetCircle(r.Context(), message)
 	if err != nil {
 		errorContainer.AnalyzeCoreError(w, err)
 		return
 	}
-
-	//result := struct {
-	//}{}
 
 	JsonResponse(w, http.StatusOK, circle)
 }
@@ -75,7 +72,7 @@ func (t *Transport) SearchCircles(w http.ResponseWriter, r *http.Request) {
 
 	message := dbmsg.GetCircles{}
 
-	circles, err := t.Core.DB.CirclesRepo.SearchCircles(r.Context(), message)
+	circles, err := t.Core.Repo.Circles.SearchCircles(r.Context(), message)
 	if err != nil {
 		errorContainer.AnalyzeCoreError(w, err)
 		return
@@ -123,7 +120,7 @@ func (t *Transport) CreateCircle(w http.ResponseWriter, r *http.Request) {
 	_ = r.Header.Get("Authorization")
 
 	// TODO: delete
-	profile, err := t.Core.DB.UsersRepo.GetProfile(r.Context(), dbmsg.GetProfile{})
+	profile, err := t.Core.Repo.Users.GetProfile(r.Context(), dbmsg.GetProfile{})
 	if err != nil {
 		errorContainer.AnalyzeCoreError(w, err)
 		return
@@ -171,7 +168,7 @@ func (t *Transport) DeleteCircle(w http.ResponseWriter, r *http.Request) {
 		ID: id,
 	}
 
-	if err := t.Core.DB.CirclesRepo.DeleteCircle(r.Context(), message); err != nil {
+	if err := t.Core.Repo.Circles.DeleteCircle(r.Context(), message); err != nil {
 		errorContainer.Done(w, http.StatusInternalServerError, err.Error())
 		return
 	}

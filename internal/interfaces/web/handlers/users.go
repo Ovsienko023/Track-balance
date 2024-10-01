@@ -31,7 +31,7 @@ func (t *Transport) GetProfile(w http.ResponseWriter, r *http.Request) {
 
 	message := dbmsg.GetProfile{}
 
-	result, err := t.Core.DB.UsersRepo.GetProfile(r.Context(), message)
+	result, err := t.Core.Repo.Users.GetProfile(r.Context(), message)
 	if err != nil {
 		errorContainer.AnalyzeCoreError(w, err)
 		return
