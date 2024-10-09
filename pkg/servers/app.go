@@ -68,6 +68,7 @@ func (a *App) Run(apiConfig *config.Api) error {
 	router.Use(middleware.Logger)
 	router.Use(middleware.Recoverer)
 	router.Use(staticServer.Handler)
+	router.Use(transportHttp.EnableCors)
 
 	r := transportHttp.RegisterHTTPEndpoints(router, *a.recordCore, a.fs)
 

@@ -128,7 +128,7 @@ func (t *Transport) CreateCircle(w http.ResponseWriter, r *http.Request) {
 
 	message.UserID = profile.ID
 
-	id, err := t.Core.DB.CirclesRepo.CreateCircle(r.Context(), message)
+	id, err := t.Core.Repo.Circles.CreateCircle(r.Context(), message)
 	if err != nil {
 		errorContainer.Done(w, http.StatusInternalServerError, err.Error())
 		return
