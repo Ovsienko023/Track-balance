@@ -26,5 +26,8 @@ config.yaml
 # Allow GoLand configured codestyle
 !.idea/codeStyles
 
-# Frontend files
+# Files
 /web
+/docs
+/gen
+

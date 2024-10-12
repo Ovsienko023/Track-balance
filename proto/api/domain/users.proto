@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package api.domain;
+
+
+message GetProfileRequest {}
+
+message GetProfileResponse {
+  string id = 1;
+  string name = 2;
+}

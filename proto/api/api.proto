@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package api;
+
+import "google/api/annotations.proto";
+import 'openapiv3/annotations.proto';
+import "api/domain/users.proto";
+
+service Service {
+  // Users
+
+  rpc GetProfile(domain.GetProfileRequest) returns (domain.GetProfileResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/profile"
+    };
+    option (openapi.v3.operation) = {
+      summary: "Получения профиля пользователя"
+      tags: ["Users"]
+    };
+  }
+}
+
+
